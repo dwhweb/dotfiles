@@ -7,7 +7,7 @@
 
 ########## Variables
 
-dir=~/.dotfiles                    		# dotfiles directory
+dir=~/dotfiles                    		# dotfiles directory
 olddir=~/dotfiles_old             		# old dotfiles backup directory
 files=$(ls -A | egrep -e '^\.' | egrep -v git)  # dotfiles in the directory the script was invoked from (usually ~/.dotfiles)
 
