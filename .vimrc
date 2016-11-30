@@ -22,6 +22,10 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'Raimondi/delimitMate'
 Plugin 'myusuf3/numbers.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'ternjs/tern_for_vim'
+Plugin 'Shougo/neocomplete'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -49,3 +53,22 @@ let delimitMate_expand_cr = 2 "Setup delimitmate to automatically expand delimit
 
 "Map F3 to turn relative numbering on and off
 nnoremap <F3> :NumbersToggle<CR>
+
+"Syntastic default options
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"Enable neocomplete
+let g:neocomplete#enable_at_startup = 1
+
+"Set neocomplete options
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+
+"Tab related settings
+set autoindent noexpandtab tabstop=4 shiftwidth=4
