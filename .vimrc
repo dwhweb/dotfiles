@@ -1,6 +1,3 @@
-"Map :W to 'sudo save file'
-command W w !sudo tee % >/dev/null
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 set t_Co=256
@@ -20,12 +17,12 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'Raimondi/delimitMate'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'myusuf3/numbers.vim'
-Plugin 'pangloss/vim-javascript'
 Plugin 'vim-syntastic/syntastic'
-Plugin 'ternjs/tern_for_vim'
 Plugin 'Shougo/neocomplete'
+Plugin 'alvan/vim-closetag'
+Plugin 'shawncplus/phpcomplete.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -42,33 +39,92 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-:silent! colorscheme distinguished "Set the colour scheme
-set laststatus=2 "Enables vim-airline all the time
+"Vim specific
 set number "Enables line numbers all the time
+set autoindent
+"Map :W to 'sudo save file'
+command W w !sudo tee % >/dev/null
+"Filetype specific tabs
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+
+"Key bindings
+"Map F1 to toggle paste mode
+set pastetoggle=<F1> 
+"Map F2 to toggle autopairs
+let g:AutoPairsShortcutToggle = '<F2>'
+"Map F3 to toggle line numbering
+nnoremap <F3> :NumbersOnOff<CR>
+"Map F4 to turn relative numbering on and off
+nnoremap <F4> :NumbersToggle<CR> 
+
+"Distinguished theme
+:silent! colorscheme distinguished "Set the colour scheme
+
+"Vim airline
+set laststatus=2 "Enables vim-airline all the time
 let g:airline_powerline_fonts = 1 "Populate symbol dictionary with powerline symbols for vim-airline
 let g:airline#extensions#tabline#enabled = 1 "Turn on buffer line at top of window
 let g:airline#extensions#tabline#buffer_nr_show = 1 "Show buffer numbers in buffer line
 let g:airline_theme='distinguished' "Set airline theme
-let delimitMate_expand_cr = 2 "Setup delimitmate to automatically expand delimiters on <CR> 
 
-"Map F3 to turn relative numbering on and off
-nnoremap <F3> :NumbersToggle<CR>
-
-"Syntastic default options
+"Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-"Enable neocomplete
+"Closetag
+"Activate closetag for HTML
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml"
+
+"Neocomplete
+" Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
-
-"Set neocomplete options
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-
-"Tab related settings
-set autoindent noexpandtab tabstop=4 shiftwidth=4
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"FileType specific omnifunc settings
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"Force neocomplete to do omnicompletion
+let g:neocomplete#sources#omni#input_patterns.php =
+\ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
