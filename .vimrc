@@ -42,10 +42,12 @@ filetype plugin indent on    " required
 "Vim specific
 set number "Enables line numbers all the time
 set autoindent
+set encoding=utf-8
 "Map :W to 'sudo save file'
 command W w !sudo tee % >/dev/null
 "Filetype specific tabs
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType xhtml setlocal shiftwidth=2 tabstop=2
 
 "Key bindings
 "Map F1 to toggle paste mode
@@ -56,6 +58,18 @@ let g:AutoPairsShortcutToggle = '<F2>'
 nnoremap <F3> :NumbersOnOff<CR>
 "Map F4 to turn relative numbering on and off
 nnoremap <F4> :NumbersToggle<CR> 
+"Map F5 to toggle PHP/html for indentation
+nnoremap <F5> :call ToggleFileType()<CR>
+
+function! ToggleFileType()
+	if &ft == 'php'
+		let &ft = 'html'
+		echo "Filetype set to html"
+	elseif &ft == 'html'
+		let &ft = 'php'	 
+		echo "Filetype set to php"
+	endif
+endfunction
 
 "Distinguished theme
 :silent! colorscheme distinguished "Set the colour scheme
