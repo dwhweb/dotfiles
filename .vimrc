@@ -18,7 +18,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'myusuf3/numbers.vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'Shougo/neocomplete'
 Plugin 'alvan/vim-closetag'
@@ -40,7 +39,8 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 "Vim specific
-set number "Enables line numbers all the time
+set rnu "Enables relative line numbers
+set nu "Set current line number to actual line number rather than 0
 set autoindent
 set encoding=utf-8
 "Map :W to 'sudo save file'
@@ -54,10 +54,19 @@ autocmd FileType xhtml setlocal shiftwidth=2 tabstop=2
 set pastetoggle=<F1> 
 "Map F2 to toggle autopairs
 let g:AutoPairsShortcutToggle = '<F2>'
-"Map F3 to toggle line numbering
-nnoremap <F3> :NumbersOnOff<CR>
-"Map F4 to turn relative numbering on and off
-nnoremap <F4> :NumbersToggle<CR> 
+"Map F3 to toggle absolute/relative line numbering
+nnoremap <F3> :call ToggleNumber()<CR>
+
+function! ToggleNumber() "{{{
+	echo "Toggling line numbers"
+
+	if exists('+relativenumber')
+		:exec &nu==&rnu? "setl nu!" : "setl rnu!"
+	else
+		setl nu! 
+	endif
+endfunction "}}}
+
 "Map F5 to toggle PHP/html for indentation
 nnoremap <F5> :call ToggleFileType()<CR>
 
@@ -92,7 +101,7 @@ let g:syntastic_check_on_wq = 0
 
 "Closetag
 "Activate closetag for HTML
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml"
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php"
 
 "Neocomplete
 " Use neocomplete.
@@ -139,6 +148,8 @@ inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
-"Force neocomplete to do omnicompletion
+"Force neocomplete to do omnicompletion on PHP
 let g:neocomplete#sources#omni#input_patterns.php =
 \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+"Disable preview window
+set completeopt-=preview
