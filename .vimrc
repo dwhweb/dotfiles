@@ -20,8 +20,8 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'Shougo/neocomplete'
-Plugin 'alvan/vim-closetag'
 Plugin 'shawncplus/phpcomplete.vim'
+Plugin 'jlanzarotta/bufexplorer.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
