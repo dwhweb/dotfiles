@@ -21,7 +21,8 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'Shougo/neocomplete'
 Plugin 'shawncplus/phpcomplete.vim'
-Plugin 'jlanzarotta/bufexplorer.vim'
+Plugin 'gregsexton/MatchTag'
+Plugin 'vim-scripts/closetag.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -48,6 +49,8 @@ command W w !sudo tee % >/dev/null
 "Filetype specific tabs
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
 autocmd FileType xhtml setlocal shiftwidth=2 tabstop=2
+"Enable jumping between tags
+runtime macros/matchit.vim
 
 "Key bindings
 "Map F1 to toggle paste mode
@@ -99,10 +102,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-"Closetag
-"Activate closetag for HTML
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php"
-
 "Neocomplete
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
@@ -138,8 +137,8 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 "FileType specific omnifunc settings
-"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 "autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 "autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
