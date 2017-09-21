@@ -23,6 +23,7 @@ Plugin 'Shougo/neocomplete'
 Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'vim-scripts/closetag.vim'
+Plugin 'Shougo/context_filetype.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -45,7 +46,7 @@ set nu "Set current line number to actual line number rather than 0
 set autoindent
 set encoding=utf-8
 "Map :W to 'sudo save file'
-command W w !sudo tee % >/dev/null
+"command W w !sudo tee % >/dev/null
 "Filetype specific tabs
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
 autocmd FileType xhtml setlocal shiftwidth=2 tabstop=2
