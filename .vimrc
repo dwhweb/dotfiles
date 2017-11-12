@@ -24,6 +24,8 @@ Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'Shougo/context_filetype.vim'
+Plugin 'davidhalter/jedi-vim'
+
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -102,6 +104,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+"Ignore empty tag errors in HTML files
+let g:syntastic_html_tidy_ignore_errors=["trimming empty"]
 
 "Neocomplete
 " Use neocomplete.
@@ -153,3 +157,12 @@ let g:neocomplete#sources#omni#input_patterns.php =
 \ '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 "Disable preview window
 set completeopt-=preview
+
+"Python autocompletion (Jedi-vim)
+if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+endif
+autocmd FileType python setlocal omnifunc=jedi#completions
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_on_dot = 0
+let g:neocomplete#force_omni_input_patterns.python = '[^. \t]\.\w*'
