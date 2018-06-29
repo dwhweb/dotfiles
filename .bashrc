@@ -139,6 +139,8 @@ colors() {
 
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
-# Aliases to wake and shutdown NAS
-alias naswake='/usr/bin/wol 88:88:88:88:87:88'
-alias nassleep='ssh digitaldunc@alexandria shutdown -p now'
+# Other aliases
+alias clipboard='xclip -sel clip'
+
+# Additional path stuff
+export PATH="${PATH}:/home/digitaldunc/.gem/ruby/2.5.0/bin"
