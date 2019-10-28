@@ -141,6 +141,4 @@ colors() {
 
 # Other aliases
 alias clipboard='xclip -sel clip'
-
-# Additional path stuff
-export PATH="${PATH}:/home/digitaldunc/.gem/ruby/2.5.0/bin"
+alias vim="nvim"

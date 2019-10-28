@@ -2,14 +2,16 @@
 ############################
 # .makesymlinks.sh
 # Backs up existing dotfiles (if required) then creates symlinks to all the dotfiles contained within the
-# directory this script was invoked from (usually ~/.dotfiles)
+# directory this script was invoked from and the neovim config init.vim (usually ~/.dotfiles)
 ############################
+# Updated 28/10/19 to handle neovim config
 
 ########## Variables
 
 dir=~/dotfiles                    		# dotfiles directory
 olddir=~/dotfiles_old             		# old dotfiles backup directory
-files=$(ls -A | egrep -e '^\.' | egrep -v git)  # dotfiles in the directory the script was invoked from (usually ~/.dotfiles)
+# egrep -e gives multiline output despite the console output
+files=$(ls -A | egrep -e '^(\..+|init.vim)' | egrep -v git)  # dotfiles in the directory the script was invoked from (usually ~/.dotfiles)
 
 ##########
 
@@ -21,7 +23,10 @@ while true; do
 
 	case $yn in
 		[Yy]* ) for file in $files; do
-				if [ -e ~/$file ]; then
+				if [ $file == init.vim ] && [ -e ~/.config/nvim/init.vim ]; then
+					echo -e "Copying  ~/.config/nvim/init.vim to $olddir"
+					cp -L -R ~/.config/nvim/init.vim $olddir/
+				elif [ -e ~/$file ]; then
 					echo -e "Copying  ~/$file to $olddir"
 					cp -L -R ~/$file $olddir/
 				fi
@@ -34,8 +39,13 @@ done
 
 # Create symlinks
 for file in $files; do
-    echo -e "Creating symlink to $file in home directory."
-    ln -s -f $dir/$file ~/$file
+    if [ $file == init.vim ]; then
+	    echo -e "Creating symlink to $file in ~/.config/nvim/"
+	    ln -s -f $dir/init.vim ~/.config/nvim/init.vim
+    else
+	    echo -e "Creating symlink to $file in home directory."
+	    ln -s -f $dir/$file ~/$file
+    fi
 done
 
 # Prompt to install Vundle and plugins, if ,vimrc exists
