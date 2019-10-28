@@ -41,6 +41,7 @@ done
 for file in $files; do
     if [ $file == init.vim ]; then
 	    echo -e "Creating symlink to $file in ~/.config/nvim/"
+	    echo -e "\e[33mNote that curl is required for neovim to pull down vim-plug on first run.\e[39m"
 	    ln -s -f $dir/init.vim ~/.config/nvim/init.vim
     else
 	    echo -e "Creating symlink to $file in home directory."
