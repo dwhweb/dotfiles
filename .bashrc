@@ -5,6 +5,7 @@ fi
 
 xhost +local:root > /dev/null 2>&1
 
+# Autocomplete commands prefixed with sudo
 complete -cf sudo
 
 # Bash won't get SIGWINCH if another process is in the foreground.
@@ -142,3 +143,13 @@ colors() {
 # Other aliases
 alias clipboard='xclip -sel clip'
 alias vim="nvim"
+alias hg612ctl="hg612ctl.py"
+alias torrentctl="torrentctl.py"
+alias vpnctl="vpnctl.py"
+alias ssh_ignore='ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no"'
+
+# Pyenv (for switching between Python versions)
+eval "$(pyenv init -)"
+
+# Path
+export PATH="${PATH}:/home/digitaldunc/scripts"

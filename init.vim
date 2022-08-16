@@ -22,6 +22,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do' : ':CocInstall coc-tsserver coc-json coc-html coc-css'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/closetag.vim'
+Plug 'sevko/vim-nand2tetris-syntax'
 
 call plug#end()
 
@@ -182,3 +183,13 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" Tabstop and shiftwidth
+set tabstop=4
+set shiftwidth=4
+
+" Set default Python version
+set pyxversion=3
+
+" Set so background is transparent
+hi Normal guibg=NONE ctermbg=NONE
